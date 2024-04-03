@@ -1,0 +1,8 @@
+Dockerfile
+README.md
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+โปรแกรมบุคลากรบริษัทเม็ดทรายแก้ว.docx

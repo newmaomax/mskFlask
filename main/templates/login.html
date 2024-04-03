@@ -1,0 +1,30 @@
+{% extends 'base.html'%}
+
+{% block title %}
+เข้าสู่ระบบ
+{% endblock %}
+
+{% block content %}
+<div class="container text-center col-md-4 my-3 myForm">
+    <form method="POST" class="form-signin" style="color:white">
+        {{ form.hidden_tag() }}
+        <img class="img-fluid mb-3 my-3" style="max-width: 33%;" src="{{url_for('static',filename='img/msk_logo.png')}}" alt="Logo">
+        <!--<img class="mb-4" src="https://res.cloudinary.com/jimshapedcoding/image/upload/v1597332609/android-icon-192x192_ove2a7.png" alt="">-->
+        <h1 class="py-3 font-weight-normal myForm-text" id="heading">
+            เข้าสู่ระบบ
+        </h1>
+        {{ form.username(class="form-control my-3 myForm", placeholder="ชื่อผู้ใช้") }}
+        {{ form.password(class="form-control my-3 myForm", placeholder="รหัสผ่าน") }}
+        <button type="submit" class="btn btn-lg col-md-4 my-3" style="background-color: #809671; color:white;">
+            ส่ง
+        </button>
+        <!--<br>
+        <div class="checkbox mb-3">
+            <h6> Do not have an account? </h6>
+            <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Login</a>
+        </div>
+        <br>
+        <br>-->
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+พนักงานไทย
+{% endblock %}
+{% block content %}
+<div class="card my-2 mx-2">
+  <div class="card-header d-flex myForm">
+    <div class="me-auto p-2">
+      <img class="img-fluid" style="max-width: 10%;" src="{{url_for('static',filename='img/msk_logo.png')}}" alt="">
+    </div>
+    <div class="p-2">
+      <a class="btn" type="button" style="background-color:#809671; color:white" href="{{ url_for('add_thai_employee_page') }}">+</a>
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer text-body-secondary">
+    2 days ago
+  </div>
+</div>
+{% endblock %}
+
+<div class="d-flex flex-row bd-highlight mb-3">
+  <div class="p-2 bd-highlight">Flex item 1</div>
+  <div class="p-2 bd-highlight">Flex item 2</div>
+  <div class="p-2 bd-highlight">Flex item 3</div>
+</div>
+<div class="d-flex flex-row-reverse bd-highlight">
+  <div class="p-2 bd-highlight">Flex item 1</div>
+  <div class="p-2 bd-highlight">Flex item 2</div>
+  <div class="p-2 bd-highlight">Flex item 3</div>
+</div>

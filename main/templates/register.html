@@ -1,0 +1,32 @@
+{% extends 'base.html'%}
+
+{% block title %}
+ขึ้นทะเบียน
+{% endblock %}
+
+{% block content %}
+<div class="container text-center col-md-4 my-3 myForm">
+    <form method="POST" class="form-register" style="color:white;">
+        {{ form.hidden_tag() }}
+        <img class="img-fluid mb-3 my-3" style="max-width: 33%;" src="{{url_for('static',filename='img/msk_logo.png')}}" alt="Logo">
+        <h1 class="py-3 font-weight-normal myForm-text">
+            กรุณาสร้างบัญชี
+        </h1>
+
+        {{ form.username(class="form-control my-3 myForm", placeholder="ชื่อผู้ใช้") }}
+        {{ form.email_address(class="form-control my-3 myForm", placeholder="อีเมล") }}
+        {{ form.password1(class="form-control my-3 myForm", placeholder="รหัสผ่าน") }}
+        {{ form.confirm(class="form-control my-3 myForm", placeholder="ยืนยันรหัสผ่าน") }}
+        {{ form.employee_id(class="form-control my-3 myForm", placeholder="เลขประจำตัวพนักงาน") }}
+        {{ form.user_lavel(class="form-control my-3 myForm", placeholder="ระดับผู้ใช้") }}
+        <div class="checkbox mb-3">
+            <h6 class="py-1 font-weight-normal myForm-text"> มีบัญชีอยู่แล้ว? </h6>
+            <a class="myForm-text" href="{{ url_for('login_page') }}">เข้าสู่ระบบ</a>
+        </div>
+        <!--{{ form.submit(class="btn btn-lg btn-block btn-primary") }}-->
+        <button type="submit" class="btn btn-lg col-md-4 my-3" style="background-color: #809671; color:white;">
+            สร้างบัญชี
+        </button>
+    </form>
+</div>
+{% endblock %}

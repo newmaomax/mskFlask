@@ -1,0 +1,1863 @@
+{% extends 'base.html'%}
+
+{% block title %}
+ข้อมูลพนักงาน(ไทย)
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-row form-group myPrint mb-3 myForm" id="head_company_print">
+	<div class="col-2 px-2 py-2" id="logo_print">
+		<img class="img-fluid" style="max-width: 60%;" src="{{url_for('static',filename='img/msk_logo.png')}}" alt="">
+	</div>
+	<div class="col-10" id="company_data_print">
+		<div type="text" class="text-center mb-2" style="font-size: 20pt !important;">บริษัทเม็ดทรายแก้ว จำกัด</div>
+		<div type="text" class="text-center mb-2" style="font-size: 16pt !important;">125/29 หมู่3 ตำบลบ่อวิน อำเภอศรีราชา จังหวัดชลบุรี 20230</div>
+		<div type="text" class="" style="font-size: 16pt !important;">เลขที่ผู้เสียภาษี 0205564018298</div>
+	</div>
+</div>
+<div class="d-flex flex-row form-group myPrint">
+	<div class="col-3 myForm" id="employeeImge_print">
+		<img class="img-fluid mx-1 my-1" style="width:170px;" id="g_employeeImge_print" src="#" alt="รูปพนักงาน">
+		<script type="text/javascript">
+			{% if file_url %}
+				document.getElementById("g_employeeImge_print").src = "{{url_for('static',filename='uploads'+file_url)}}";
+			{% else %}
+				document.getElementById("g_employeeImge_print").src = "{{url_for('static',filename='img/add2.png')}}";
+			{% endif %}
+		</script>
+	</div>
+	<div class="col-9 px-3 pt-3 myForm" id="generalData_print">
+		<div class="row pb-3 g-0">
+			<div type="text" class="col-auto">เลขประจำตัวพนักงาน:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.employee_id}}</div>
+		</div>
+		<div class="row g-0">
+			<div type="text" class="col-auto">เลขที่บัตรประชาชน:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.personal_id}}</div>
+		</div>
+		<div class="row pb-3 g-0">
+			<div type="text" class="col-auto">วันที่ออกบัตร:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.issue_date}}</div>
+			
+			<div type="text" class="col-auto ps-2">วันที่หมดอายุ:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.expired_date}}</div>
+		</div>
+		<div class="row pb-3 g-0">
+			<div type="text" class="col-auto">ชื่อ-นามสกุล:</div>
+			<div type="text" class="col-8 border-bottom">&nbsp;{{ge_title.name_th}}&nbsp;{{general_data.first_name_th}}&nbsp;{{general_data.last_name_th}}</div>
+		</div>
+		<div class="row pb-3 g-0">
+			<div type="text" class="col-auto">First/Last name:</div>
+			<div type="text" class="col-8 border-bottom">&nbsp;{{ge_title.name_eng}}&nbsp;{{general_data.first_name}}&nbsp;{{general_data.last_name}}</div>
+		</div>
+		
+		<div class="row pb-3 g-0">
+			<div type="text" class="col-auto">วันเกิด:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.birth_date}}</div>
+			
+			<div type="text" class="col-auto ps-2">สัญชาติ:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{em_nationality.name_th}}</div>
+
+			<div type="text" class="col-auto ps-2">เชื้อชาติ:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{em_ethnicity.name_th}}</div>
+
+			<div type="text" class="col-auto ps-2">ศาสนา:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{em_religion.name_th}}</div>
+		</div>
+		
+		<div class="row pb-2 g-0">
+			<div type="text" class="col-auto">น้ำหนัก:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.weight}}</div>
+
+			<div type="text" class="col-auto ps-2">ส่วนสูง:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.height}}</div>
+
+			<div type="text" class="col-auto ps-2">เบอร์โทรศัพท์:</div>
+			<div type="text" class="col-auto border-bottom">&nbsp;{{general_data.telephone}}</div>
+		</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2" id="register_address_print">
+		<div type="text" class="col-auto">ที่อยู่ตามทะเบียนบ้านเลขที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{register_address_data.register_address_house_number}}</div>
+		
+		<div type="text" class="col-auto ps-3">หมู่ที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{register_address_data.register_address_village_number}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2" id="register_address_print2">
+		<div type="text" class="col-auto">แขวง/ตำบล:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{re_subdistrict.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">เขต/อำเภอ:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{re_district.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">จังหวัด:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{re_province.name_th}}</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">ที่อยู่ปัจจุบันเลขที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{actual_address_data.actual_address_house_number}}</div>
+		
+		<div type="text" class="col-auto ps-3">หมู่ที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{actual_address_data.actual_address_village_number}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">แขวง/ตำบล:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{ac_subdistrict.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">เขต/อำเภอ:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{ac_district.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">จังหวัด:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{ac_province.name_th}}</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">จำนวนพี่น้อง</div>
+		<div type="text" class="col-auto ps-3">ชาย:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{clan_data.brother_number}}</div>
+		<div type="text" class="col-auto ps-3">หญิง:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{clan_data.sister_number}}</div>
+		<div type="text" class="col-auto ps-3">รวม:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{clan_data.sibling_number}}</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">ข้อมูลบิดา:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{fa_title.name_th}}&nbsp;{{father_data.father_first_name}}&nbsp;{{father_data.father_last_name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">อายุ:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{father_data.father_age}}</div>
+		
+		<div type="text" class="col-auto ps-3">อาชีพ:</div>
+		<div type="text" class="col-4 border-bottom">&nbsp;{{father_data.father_occupation}}</div>
+		
+		<div type="text" class="col-auto ps-3">เบอร์โทรศัพท์:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{father_data.father_telephone}}</div>
+	</div>
+	
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">ข้อมูลมารดา:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{mo_title.name_th}}&nbsp;{{mother_data.mother_first_name}}&nbsp;{{mother_data.mother_last_name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">อายุ:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{mother_data.mother_age}}</div>
+		
+		<div type="text" class="col-auto ps-3">อาชีพ:</div>
+		<div type="text" class="col-4 border-bottom">&nbsp;{{mother_data.mother_occupation}}</div>
+		
+		<div type="text" class="col-auto ps-3">เบอร์โทรศัพท์:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{mother_data.mother_telephone}}</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">สถานะภาพสมรส:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{fa_maritalStatus.name}}</div>
+		<div type="text" class="col-auto ps-3">จำนวนบุตร</div>
+		<div type="text" class="col-auto">ชาย:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{family_data.son_number}}</div>
+		<div type="text" class="col-auto ps-3">หญิง:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{family_data.daughter_number}}</div>
+		<div type="text" class="col-auto ps-3">รวม:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{family_data.children_number}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ข้อมูลคู่สมรส:</div>
+		<div type="text" class="col-6 border-bottom">&nbsp;{{sp_title.name_th}}&nbsp;{{family_data.spouse_first_name}}&nbsp;{{family_data.spouse_last_name}}</div>
+		
+		<div type="text" class="col-auto ps-3">อายุ:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{family_data.spouse_age}}</div>
+		
+		<div type="text" class="col-auto ps-3">เบอร์โทรศัพท์:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{family_data.spouse_telephone}}</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">หมู่เลือด:</div>
+		<div type="text" class="col-auto border-bottom">{{b_group.name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ประกันสังคม:</div>
+		{% if health_data.sso == "1" %}
+		<div type="text" class="col-1 border-bottom">&nbsp;มี</div>
+		{% else %}
+		<div type="text" class="col-1 border-bottom">&nbsp;ไม่มี</div>
+		{% endif %}
+		<div type="text" class="col-auto ps-3">ระบุโรงพยาบาล:</div>
+		<div type="text" class="col-7 border-bottom">&nbsp;{{health_data.sso_hospital}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">เคยป่วยหรือได้รับอุบัติเหตุรุนแรง:</div>
+		{% if health_data.sick_accident == "1" %}
+		<div type="text" class="col-1 border-bottom">&nbsp;มี</div>
+		{% else %}
+		<div type="text" class="col-1 border-bottom">&nbsp;ไม่มี</div>
+		{% endif %}
+		<div type="text" class="col-auto">โปรดระบุ:</div>
+		<div type="text" class="col-6 border-bottom">&nbsp;{{health_data.sick_accident_cause}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">โรคประจำตัว:</div>
+		{% if health_data.congenital_disease == "1" %}
+		<div type="text" class="col-1 border-bottom">&nbsp;มี</div>
+		{% else %}
+		<div type="text" class="col-1 border-bottom">&nbsp;ไม่มี</div>
+		{% endif %}
+		<div type="text" class="col-auto">โปรดระบุ:</div>
+		<div type="text" class="col-6 border-bottom">&nbsp;{{health_data.congenital_disease_name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ความผิดปกติหรือพิการ:</div>
+		{% if health_data.disability == "1" %}
+		<div type="text" class="col-1 border-bottom">&nbsp;มี</div>
+		{% else %}
+		<div type="text" class="col-1 border-bottom">&nbsp;ไม่มี</div>
+		{% endif %}
+		<div type="text" class="col-auto">โปรดระบุ:</div>
+		<div type="text" class="col-6 border-bottom">&nbsp;{{health_data.disability_organ}}</div>
+	</div>
+</div>
+
+<div class="flex-row form-group mt-2 myPrint pagebreak myForm">
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ประวัติการศึกษา</div>
+	</div>
+	{% for e_data in education_data %}
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ระดับการศึกษา:</div>
+		{% for e_level in education_level %}
+		{% if e_level.code == e_data.education_level %}
+		<div type="text" class="col-5 border-bottom">&nbsp;{{e_level.name}}</div>
+		{% endif %}
+		{% endfor %}
+		<div type="text" class="col-auto">ปีที่จบการศึกษา:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{e_data.graduation_year}}</div>
+		<div type="text" class="col-auto">เกรดเฉลี่ย:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{e_data.average_grade}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ชื่อสถานศึกษา:</div>
+		<div type="text" class="col-10 border-bottom">&nbsp;{{e_data.school_name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2 mb-4">
+		<div type="text" class="col-auto">คณะ:</div>
+		<div type="text" class="col-5 border-bottom">&nbsp;{{e_data.faculty}}</div>
+		<div type="text" class="col-auto">สาขา:</div>
+		<div type="text" class="col-5 border-bottom">&nbsp;{{e_data.major}}</div>
+	</div>
+	{% endfor %}
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ประวัติการทำงาน</div>
+	</div>
+	{% for w_data in work_history_data %}
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ชื่อบริษัท:</div>
+		<div type="text" class="col-5 border-bottom">&nbsp;{{w_data.company_name}}</div>
+		<div type="text" class="col-auto">ตำแหน่งงาน:</div>
+		<div type="text" class="col-4 border-bottom">&nbsp;{{w_data.position}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ปีที่เริ่มงาน:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{w_data.begin_year}}</div>
+		<div type="text" class="col-auto">ปีที่ออกจากงาน:</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{w_data.end_year}}</div>
+		<div type="text" class="col-auto">สาเหตุที่ออก:</div>
+		<div type="text" class="col-5 border-bottom">&nbsp;{{w_data.reason}}</div>
+	</div>
+	{% endfor %}
+</div>
+<div class="flex-row form-group myPrint pagebreak myForm">
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ความสามารถพิเศษ</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="thai_typing">
+            <label class="form-check-label" for="thai_typing">
+	            พิมพ์ดีดไทย
+            </label>
+		</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{talent_data.thai_typing_time}}</div>
+		<div type="text" class="col-auto pe-5">คำ/นาที</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="eng_typing">
+            <label class="form-check-label" for="thai_typing">
+	            พิมพ์ดีดอังกฤษ
+            </label>
+		</div>
+		<div type="text" class="col-1 border-bottom">&nbsp;{{talent_data.eng_typing_time}}</div>
+		<div type="text" class="col-auto pe-5">คำ/นาที</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto pe-5">
+            <input class="form-check-input" type="checkbox" value="" id="computer_print">
+            <label class="form-check-label" for="computer_print">
+	            คอมพิวเตอร์
+            </label>
+		</div>
+		<div type="text" class="col-auto">โปรดระบุโปรแกรม</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-10 border-bottom ms-4">&nbsp;{{talent_data.program}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">ความสามารถในการขับรถ:</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="driving">
+            <label class="form-check-label" for="driving">
+	            รถยนต์
+            </label>
+		</div>
+		<div type="text" class="col-auto ps-3">ใบอนุญาตขับขี่เลขที่</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{talent_data.driving_license}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="motorcycling">
+            <label class="form-check-label" for="motorcycling">
+	            รถมอเตอร์ไซต์
+            </label>
+		</div>
+		<div type="text" class="col-auto ps-3">ใบอนุญาตขับขี่เลขที่</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{talent_data.motorcycle_license}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="forklift_driving">
+            <label class="form-check-label" for="forklift_driving">
+	            รถโฟล์คลิฟท์
+            </label>
+		</div>
+		<div type="text" class="col-auto ps-3">ผ่านการอบรมจาก</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{talent_data.forklift_trained_from}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="welding">
+            <label class="form-check-label" for="welding">
+	            งานเชื่อม
+            </label>
+		</div>
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="cement">
+            <label class="form-check-label" for="cement">
+	            งานปูน
+            </label>
+		</div>
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="electrical">
+            <label class="form-check-label" for="electrical">
+	            งานไฟฟ้า
+            </label>
+		</div>
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="maintenance">
+            <label class="form-check-label" for="maintenance">
+	            งานซ่อมบำรุง
+            </label>
+		</div>
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="qc">
+            <label class="form-check-label" for="qc">
+	            งานQC
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="sewing">
+            <label class="form-check-label" for="sewing">
+	            งานตัดเย็บ
+            </label>
+		</div>
+	</div>
+</div>
+<!-- javascript for set education data -->
+<script type="text/javascript">
+	var th_typing = {{talent_data.thai_typing}};
+	var eng_typing = {{talent_data.eng_typing}};
+	var computer = {{talent_data.computer}};
+	var driving = {{talent_data.driving}};
+	var motorcycling = {{talent_data.motorcycling}};
+	var forklift_driving = {{talent_data.forklift_driving}};
+	var welding = {{talent_data.welding}};
+	var cement = {{talent_data.cement}};
+	var electrical = {{talent_data.electrical}};
+	var maintenance = {{talent_data.maintenance}};
+	var qc = {{talent_data.qc}};
+	var sewing = {{talent_data.sewing}};
+	
+	if(th_typing == "1"){
+		document.getElementById("thai_typing").checked = true;
+	}else {
+		document.getElementById("thai_typing").checked = false;
+	}
+	
+	if(eng_typing == "1"){
+		document.getElementById("eng_typing").checked = true;
+	}else {
+		document.getElementById("eng_typing").checked = false;
+	}
+	
+	if(computer == "1"){
+		document.getElementById("computer_print").checked = true;
+	}else {
+		document.getElementById("computer_print").checked = false;
+	}
+	
+	if(driving == "1"){
+		document.getElementById("driving").checked = true;
+	}else {
+		document.getElementById("driving").checked = false;
+	}
+	
+	if(motorcycling == "1"){
+		document.getElementById("motorcycling").checked = true;
+	}else {
+		document.getElementById("motorcycling").checked = false;
+	}
+	
+	if(forklift_driving == "1"){
+		document.getElementById("forklift_driving").checked = true;
+	}else {
+		document.getElementById("forklift_driving").checked = false;
+	}
+	
+	if(welding == "1"){
+		document.getElementById("welding").checked = true;
+	}else {
+		document.getElementById("welding").checked = false;
+	}
+	
+	if(cement == "1"){
+		document.getElementById("cement").checked = true;
+	}else {
+		document.getElementById("cement").checked = false;
+	}
+	
+	if(electrical == "1"){
+		document.getElementById("electrical").checked = true;
+	}else {
+		document.getElementById("electrical").checked = false;
+	}
+	
+	if(maintenance == "1"){
+		document.getElementById("maintenance").checked = true;
+	}else {
+		document.getElementById("maintenance").checked = false;
+	}
+	
+	if(qc == "1"){
+		document.getElementById("qc").checked = true;
+	}else {
+		document.getElementById("qc").checked = false;
+	}
+	
+	if(sewing == "1"){
+		document.getElementById("sewing").checked = true;
+	}else {
+		document.getElementById("sewing").checked = false;
+	}
+</script>
+
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">ข้อมูลผู้ติดต่อกรณีฉุกเฉิน:</div>
+		<div type="text" class="col-5 border-bottom">&nbsp;{{em_title.name_th}}&nbsp;{{emergency_contact_data.emergency_contact_first_name}}&nbsp;{{emergency_contact_data.emergency_contact_last_name}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">เกี่ยวข้องเป็น:</div>
+		<div type="text" class="col-3 border-bottom">{{emergency_contact_data.emergency_contact_relationship}}</div>
+		<div type="text" class="col-auto ps-3">อาชีพ:</div>
+		<div type="text" class="col-3 border-bottom">{{emergency_contact_data.emergency_contact_occupation}}</div>
+		<div type="text" class="col-auto ps-3">เบอร์โทรศัพท์:</div>
+		<div type="text" class="col-auto border-bottom">{{emergency_contact_data.emergency_contact_telephone}}</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">ที่อยู่เลขที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{emergency_contact_data.emergency_contact_house_number}}</div>
+		
+		<div type="text" class="col-auto ps-3">หมู่ที่:</div>
+		<div type="text" class="col-auto border-bottom">&nbsp;{{emergency_contact_data.emergency_contact_village_number}}</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto">แขวง/ตำบล:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{em_subdistrict.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">เขต/อำเภอ:</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;{{em_district.name_th}}</div>
+		
+		<div type="text" class="col-auto ps-3">จังหวัด:</div>
+		<div type="text" class="col-2 border-bottom">&nbsp;{{em_province.name_th}}</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ข้าพเจ้าพร้อมที่จะทดลองงานในระยะเวลา 119
+			&nbsp;วัน&nbsp;พร้อมที่จะปฏิบัติตามกฏระเบียบของบริษัททุกประการ&nbsp;&nbsp;และยินยอมให้ตรวจประวัติอาชญากรรม หากตรวจพบประวัติอาชญากรรมแล้ว ข้อมูลข้างต้นไม่เป็นความจริง ข้าพเจ้ายินยอมให้บริษัทฯ
+			&nbsp;บอกเลิกจ้างได้ทันที ตลอดจนครอบคลุมถึง สัญญาว่าจ้างระหว่างบริษัทฯ และลูกค้านั้นๆ สิ้นสุดลง ไม่ว่าจะด้วยเหตุอันใด โดยจะไม่เรียกร้อง
+			สิทธิประโยชน์ทดแทน หรือเงินชดเชยใดๆทั้งสิ้น
+		</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto ms-5">ลงชื่อ</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;</div>
+		<div type="text" class="col-auto pe-5">ผู้สมัคร</div>
+		<div type="text" class="col-auto">วันที่</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;</div>
+	</div>
+	<div class="row g-0 px-2 py-2">
+		<div type="text" class="col-auto ms-5">(&nbsp;</div>
+		<div type="text" class="col-4 border-bottom">&nbsp;</div>
+		<div type="text" class="col-auto">&nbsp;)</div>
+	</div>
+</div>
+<div class="flex-row form-group mt-2 myPrint myForm">
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-auto"><u>ส่วนของเจ้าหน้าที่สรรหา</u></div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-2">เดินทางไปทำงาน</div>
+		<div class="form-check col-auto pe-3">
+            <input class="form-check-input" type="checkbox" value="" id="t1">
+            <label class="form-check-label" for="t1">
+	            สามารถเดินทางไปทำงานเองได้
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="t2">
+            <label class="form-check-label" for="t2">
+	            ต้องใช้บริการรถรับส่งบริษัทเท่านั้น
+            </label>
+		</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-2">การเจาะหู</div>
+		<div class="form-check col-1 pe-3">
+            <input class="form-check-input" type="checkbox" value="" id="t3">
+            <label class="form-check-label" for="t3">
+	            เจาะ
+            </label>
+		</div>
+		<div class="form-check col-auto pe-2">
+            <input class="form-check-input" type="checkbox" value="" id="t4">
+            <label class="form-check-label" for="t4">
+	            ไม่เจาะ
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="t5">
+            <label class="form-check-label" for="t5">
+	            ระเบิดหู
+            </label>
+		</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-2">รอยสัก</div>
+		<div class="form-check col-1 pe-3">
+            <input class="form-check-input" type="checkbox" value="" id="t6">
+            <label class="form-check-label" for="t6">
+	            ไม่มี
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="t7">
+            <label class="form-check-label" for="t7">
+	            มี &nbsp;ระบุ
+            </label>
+		</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-2">สูบบุหรี่</div>
+		<div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" value="" id="t8">
+            <label class="form-check-label" for="t8">
+	            สูบ
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="t9">
+            <label class="form-check-label" for="t9">
+	            ไม่สูบ
+            </label>
+		</div>
+	</div>
+	<div class="row g-0 px-2 pt-2">
+		<div type="text" class="col-2">ดื่มเหล้า</div>
+		<div class="form-check col-auto pe-3">
+            <input class="form-check-input" type="checkbox" value="" id="t10">
+            <label class="form-check-label" for="t10">
+	            ดื่มบ้าง
+            </label>
+		</div>
+		<div class="form-check col-auto pe-3">
+            <input class="form-check-input" type="checkbox" value="" id="t11">
+            <label class="form-check-label" for="t11">
+	            ดื่มประจำ
+            </label>
+		</div>
+		<div class="form-check col-auto">
+            <input class="form-check-input" type="checkbox" value="" id="t12">
+            <label class="form-check-label" for="t12">
+	            ไม่ดื่ม
+            </label>
+		</div>
+	</div>
+	<div class="row g-0 px-2">
+		<div type="text" class="col-auto ms-5">&nbsp;</div>
+	</div>
+	<div class="row g-0 px-2">
+		<div type="text" class="col-auto ms-5">&nbsp;</div>
+	</div>
+	<div class="row g-0 px-2 pt-2 justify-content-end">
+		<div type="text" class="col-auto">ลงชื่อ</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;</div>
+		<div type="text" class="col-auto align-self-end">เจ้าหน้าที่สรรหา</div>
+	</div>
+	<div class="row g-0 px-2 py-2 justify-content-end">
+		<div type="text" class="col-auto">(&nbsp;</div>
+		<div type="text" class="col-3 border-bottom">&nbsp;</div>
+		<div type="text" class="col-auto pe-5">&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	</div>
+</div>
+
+<div class="card card-body mx-3 my-3 myForm d-print-none">
+	<!--<form action="/save" method="POST" class="form-register container-fluid" style="color:white;" enctype="multipart/form-data">-->
+	<form method="POST" class="form-register container-fluid" style="color:white;" enctype="multipart/form-data">
+	<fieldset disabled>
+		{{ image_form.hidden_tag() }}
+		{{ general_form.hidden_tag() }}
+		{{ register_address_form.hidden_tag() }}
+		<!--{{ actual_address_form.hidden_tag() }}
+		{{ father_form.hidden_tag() }}
+		{{ mother_form.hidden_tag() }}
+		{{ clan_form.hidden_tag() }}
+        {{ family_form.hidden_tag() }}
+		{{ health_data_form.hidden_tag() }}
+		{{ emergency_contact_form.hidden_tag() }}
+		{{ talent_form.hidden_tag() }}
+		{{ talent_form.hidden_tag() }}-->
+<!--
+	ROW1 get employee's image and general data
+-->
+		<div class="d-xxl-flex flex-row form-group">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-2 text-center myForm" id="employeeImge">
+				<div class="d-xxl-flex flex-row justify-content-center">
+					<img class="img-fluid mx-3 my-3" style="width:170px;" id="g_employeeImge" src="#" alt="รูปพนักงาน">
+					<script type="text/javascript">
+						{% if file_url %}
+						document.getElementById("g_employeeImge").src = "{{url_for('static',filename='uploads'+file_url)}}";
+						{% else %}
+						document.getElementById("g_employeeImge").src = "{{url_for('static',filename='img/add2.png')}}";
+						{% endif %}
+					</script>
+				</div>
+				
+				<div class="row justify-content-center d-print-none">
+					{% if image_form.photo.errors %}
+					{% for error in image_form.photo.errors %}
+					<span style="color: red;">{{ error }}</span>
+					{% endfor %}
+					{% else %}
+					<span class="myForm-text">รูปพนักงาน</span>
+					{% endif %}
+					<div class="col-xxl-9 mx-3 my-3">
+						&nbsp;
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 text-center" id="generalData">
+				<div class="row px-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เลขประจำตัวพนักงาน</span>
+							{{general_form.employee_id(class="form-control myForm", id="employee_id", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto ms-2 g-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เลขที่บัตรประชาชน</span>
+							{{general_form.personal_id(class="form-control myForm", id="s_personal_id", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันที่ออกบัตร</span>
+							{{general_form.issue_date(class="form-control myForm", id="s_issue_date", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันที่หมดอายุ</span>
+							{{general_form.expired_date(class="form-control myForm", id="s_expired_date", placeholder="")}}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{general_form.title(class="form-select myForm", id="s_title", placeholder="")}}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ general_form.first_name_th(class="form-control myForm", id="s_name_th", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ general_form.last_name_th(class="form-control myForm", id="s_last_name_th", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">First Name</span>
+							{{ general_form.first_name(class="form-control myForm", id="s_first_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">Last Name</span>
+							{{ general_form.last_name(class="form-control myForm", id="last_name", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<div class="col-auto col-xxl-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันเกิด</span>
+							{{ general_form.birth_date(class="form-control myForm", id="s_birth_date", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ส่วนสูง</span>
+							{{ general_form.height(class="form-control myForm", id="s_height", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">น้ำหนัก</span>
+							{{ general_form.weight(class="form-control myForm", id="s_weight", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ general_form.telephone(class="form-control myForm", id="s_telephone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">สัญชาติ</span>
+							{{ general_form.nationality(class="form-select myForm", id="s_nationality", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เชื้อชาติ</span>
+							{{ general_form.ethnicity(class="form-select myForm", id="s_ethnicity", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ศาสนา</span>
+							{{ general_form.religion(class="form-select myForm", id="s_religion", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<p for="register_address" class="form-label text-start" style="color:#809671;">ที่อยู่ตามทะเบียนบ้าน</p>
+					<div class="row g-0" id="register_address">
+						<div class="col-auto col-xxl-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เลขที่</span>
+								{{ register_address_form.register_address_house_number(class="form-control myForm", id="s_register_house_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-1 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">หมู่ที่</span>
+								{{ register_address_form.register_address_village_number(class="form-control myForm", id="s_register_village_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-3 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">แขวง/ตำบล</span>
+								{{ register_address_form.register_address_subdistrict(class="form-select myForm", id="s_register_subdistrict", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เขต/อำเภอ</span>
+								{{ register_address_form.register_address_district(class="form-select myForm", id="s_register_district", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">จังหวัด</span>
+								{{ register_address_form.register_address_province(class="form-select myForm", id="s_register_province", placeholder="") }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<p for="actual_address" class="form-label text-start" style="color:#809671;">ที่อยู่ปัจจุบัน</p>
+					<div class="row g-0" id="actual_address">
+						<div class="col-auto col-xxl-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เลขที่</span>
+								{{ actual_address_form.actual_address_house_number(class="form-control myForm", id="s_actual_house_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-1 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">หมู่ที่</span>
+								{{ actual_address_form.actual_address_village_number(class="form-control myForm", id="s_actual_village_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-3 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">แขวง/ตำบล</span>
+								{{ actual_address_form.actual_address_subdistrict(class="form-select myForm", id="s_actual_subdistrict", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เขต/อำเภอ</span>
+								{{ actual_address_form.actual_address_district(class="form-select myForm", id="s_actual_district", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">จังหวัด</span>
+								{{ actual_address_form.actual_address_province(class="form-select myForm", id="s_actual_province", placeholder="") }}
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+		</div>
+<!--
+	ROW2 get employee's parent data
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1" id="clan">
+				<p for="g_clan" class="form-label text-start col-xxl-12" style="color:#809671;">จำนวนพี่น้อง</p>
+				<div class="row g-0" id="g_clan">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ชาย&nbsp;</span>
+							{{ clan_form.brother_number(class="form-control myForm", id="s_brother_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หญิง</span>
+							{{ clan_form.sister_number(class="form-control myForm", id="s_sister_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">รวม&nbsp;&nbsp;</span>
+							{{ clan_form.sibling_number(class="form-control myForm", id="s_sibling_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-10 col-xl-10 col-xxl-11 text-center" id="parent">
+				<p for="father_data" class="form-label text-start ms-3" style="color:#809671;">ข้อมูลบิดา</p>
+				<div class="row ms-3 g-0" id="father_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ father_form.father_title(class="form-select myForm", id="s_father_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ father_form.father_first_name(class="form-control myForm", id="s_father_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ father_form.father_last_name(class="form-control myForm", id="s_father_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ father_form.father_age(class="form-control myForm", id="s_father_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ father_form.father_occupation(class="form-control myForm", id="s_father_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ father_form.father_telephone(class="form-control myForm", id="s_father_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				
+				<p for="mother_data" class="form-label text-start ms-3 mt-3" style="color:#809671;">ข้อมูลมารดา</p>
+				<div class="row ms-3 g-0" id="mother_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ mother_form.mother_title(class="form-select myForm", id="s_mother_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ mother_form.mother_first_name(class="form-control myForm", id="s_mother_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ mother_form.mother_last_name(class="form-control myForm", id="s_mother_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ mother_form.mother_age(class="form-control myForm", id="s_mother_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ mother_form.mother_occupation(class="form-control myForm", id="s_mother_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ mother_form.mother_telephone(class="form-control myForm", id="s_mother_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--
+	ROW3 get employee's family data
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1" id="maritalStatus">
+				<p for="g_marital_status" class="form-label text-start col-xxl-12" style="color:#809671;">สถานะภาพสมรส</p>
+				<div class="row g-0" id="g_marital_status">
+					<div class="col-auto col-xxl-12 g-0">
+						{{ family_form.marital_status(class="form-check", id="marital_status", style="list-style-type:none;", placeholder="") }}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1 ms-3" id="children_number">
+				<p for="g_children_number" class="form-label text-start col-xxl-12" style="color:#809671;">จำนวนบุตร</p>
+				<div class="row g-0" id="g_children_number">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ชาย&nbsp;</span>
+							{{ family_form.son_number(class="form-control myForm", id="s_son_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หญิง</span>
+							{{ family_form.daughter_number(class="form-control myForm", id="s_daughter_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">รวม&nbsp;&nbsp;</span>
+							{{ family_form.children_number(class="form-control myForm", id="s_children_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ms-3" id="spouse">
+				<p for="spouse_data" class="form-label text-start" style="color:#809671;">ข้อมูลคู่สมรส</p>
+				<div class="row g-0" id="spouse_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ family_form.spouse_title(class="form-select myForm", id="s_spouse_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ family_form.spouse_first_name(class="form-control myForm", id="s_spouse_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ family_form.spouse_last_name(class="form-control myForm", id="s_spouse_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ family_form.spouse_age(class="form-control myForm", id="s_spouse_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ family_form.spouse_telephone(class="form-control myForm", id="s_spouse_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--
+	ROW4 get employee's health data
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="ssoData">
+				<p for="g_sso" class="form-label text-start col-xxl-12" style="color:#809671;">ประกันสังคม</p>
+				<div class="row g-0" id="g_sso">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="ssoCheck" id="ssoCheck" value="1">
+                            <label class="form-check-label" for="ssoCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ระบุโรงพยาบาล</span>
+							{{ health_data_form.sso_hospital(class="form-control myForm", id="s_sso_hospital", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="bloodGroup">
+				<p for="g_bloodGroup" class="form-label text-start col-xxl-12" style="color:#809671;">&nbsp;</p>
+				<div class="row g-0" id="g_bloodGroup">
+					<div class="input-group">
+						<span class="input-group-text myForm">หมู่เลือด</span>
+						{{ health_data_form.blood_group(class="form-select myForm", id="s_blood_group", placeholder="") }}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="sickAndAccident">
+				<p for="g_sickAndAccident" class="form-label text-start col-xxl-12" style="color:#809671;">เคยป่วยหรือได้รับอุบัติเหตุรุนแรง</p>
+				<div class="row g-0" id="g_sickAndAccident">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="sickAndAccidentCheck" id="sickAndAccidentCheck" value="1">
+                            <label class="form-check-label" for="sickAndAccidentCheck">เคย</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.sick_accident_cause(class="form-control myForm", id="s_sick_accident_cause", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="congenitalDisease">
+				<p for="g_congenitalDisease" class="form-label text-start col-xxl-12" style="color:#809671;">โรคประจำตัว</p>
+				<div class="row g-0" id="g_congenitalDisease">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="congenitalDiseaseCheck" id="congenitalDiseaseCheck" value="1">
+                            <label class="form-check-label" for="congenitalDiseaseCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.congenital_disease_name(class="form-control myForm", id="s_congenital_disease_name", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="disability">
+				<p for="g_disability" class="form-label text-start col-xxl-12" style="color:#809671;">ความผิดปกติหรือพิการ</p>
+				<div class="row g-0" id="g_disability">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="disabilityCheck" id="disabilityCheck" value="1">
+                            <label class="form-check-label" for="disabilityCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.disability_organ(class="form-control myForm", id="s_disability_organ", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--
+	ROW5 get employee's emergency contact data
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-10 col-xl-10 col-xxl-11 text-center" id="emergencyContact">
+				<p for="emergencyContactData" class="form-label text-start" style="color:#809671;">ข้อมูลผู้ติดต่อกรณีฉุกเฉิน</p>
+				<div class="row g-0" id="emergencyContactData">
+					<div class="col-12 col-xxl-auto ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ emergency_contact_form.emergency_contact_title(class="form-select myForm", id="s_emergency_contact_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ emergency_contact_form.emergency_contact_first_name(class="form-control myForm", id="s_emergency_contact_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ emergency_contact_form.emergency_contact_last_name(class="form-control myForm", id="s_emergency_contact_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ emergency_contact_form.emergency_contact_occupation(class="form-control myForm", id="s_emergency_contact_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เกี่ยวข้องเป็น</span>
+							{{ emergency_contact_form.emergency_contact_relationship(class="form-control myForm", id="s_emergency_contact_relationship", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ emergency_contact_form.emergency_contact_telephone(class="form-control myForm", id="s_emergency_contact_telephone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row mt-3 g-0" id="emergencyContactAddress">
+					<div class="col-auto col-xxl-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">เลขที่</span>
+							{{ emergency_contact_form.emergency_contact_house_number(class="form-control myForm", id="s_emergency_contact_house_number", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-1 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หมู่ที่</span>
+							{{ emergency_contact_form.emergency_contact_village_number(class="form-control myForm", id="s_emergency_contact_village_number", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">แขวง/ตำบล</span>
+							{{ emergency_contact_form.emergency_contact_subdistrict(class="form-select myForm", id="s_emergency_contact_subdistrict", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">เขต/อำเภอ</span>
+							{{ emergency_contact_form.emergency_contact_district(class="form-select myForm", id="s_emergency_contact_district", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">จังหวัด</span>
+							{{ emergency_contact_form.emergency_contact_province(class="form-select myForm", id="s_emergency_contact_province", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--
+	ROW6 get employee's education data
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 pt-3 myForm">
+			<div class="col-xxl-12" id="educationRecord">
+				<p for="educationRecord" class="form-label text-start col-xxl-12" style="color:#809671;">ประวัติการศึกษา</p>
+				<table class="table" id="educationTable">
+					<thead class="myForm-text">
+	                    <tr>
+	                        <td class="col-xxl-2" style="color:#809671;">ระดับการศึกษา</td>
+	                        <td class="col-xxl-3" style="color:#809671;">ชื่อสถาบันการศึกษา</td>
+	                        <td class="col-xxl-1" style="color:#809671;">ปีที่จบการศึกษา</td>
+		                    <td class="col-xxl-2" style="color:#809671;">คณะ</td>
+		                    <td class="col-xxl-2" style="color:#809671;">สาขา</td>
+		                    <td class="col-xxl-2" style="color:#809671;">เกรดเฉลี่ย</td>
+	                    </tr>
+					</thead>
+					<tbody>
+					{% for e_data in education_data %}
+
+					{% endfor %}
+					</tbody>
+					<tfoot  hidden>
+						<td>
+							<button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="makeEduArray('educationTable')">+</button>
+						</td>
+						<td colspan="6">
+							<div class="col-12 col-xxl-12 ms-2">
+									{{ tuple_form.educationTuple(class="form-control myForm", id="s_educationTuple", placeholder="") }}
+							</div>
+						</td>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+<!--
+	ROW7 get employee's work history
+-->
+		<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 pt-3 myForm">
+			<div class="col-xxl-12" id="workHistory">
+				<p for="workHistory" class="form-label text-start col-xxl-12" style="color:#809671;">ประวัติการทำงาน</p>
+				<table class="table" style="color: red;" id="workHistoryTable">
+					<thead class="myForm-text">
+	                    <tr>
+		                    <td class="col-xxl-3" style="color:#809671;">ชื่อบริษัท</td>
+	                        <td class="col-xxl-2" style="color:#809671;">ตำแหน่งงาน</td>
+	                        <td class="col-xxl-1" style="color:#809671;">ปีที่เริ่ม</td>
+		                    <td class="col-xxl-1" style="color:#809671;">ปีที่ออก</td>
+		                    <td class="col-xxl-5" style="color:#809671;">สาเหตุที่ออก</td>
+	                    </tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+					<tfoot hidden>
+						<td>
+							<button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="makeWorkArray('workHistoryTable')">+</button>
+						</td>
+						<td colspan="6">
+							<div class="col-12 col-xxl-12 ms-2">
+									{{ tuple_form.workHistoryTuple(class="form-control myForm", id="s_workHistoryTuple", placeholder="") }}
+							</div>
+						</td>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+<!--
+	ROW8 get employee's talent
+-->
+		<div class="row mt-3 ps-3 py-3 g-0 myForm">
+			<div class="d-xxl-flex flex-row form-group align-middle">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="thaiTyping">
+					<p for="g_thaiTyping" class="form-label text-start col-xxl-auto" style="color:#809671;">พิมพ์ดีดไทย</p>
+					<div class="row g-0" id="g_thaiTyping">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="thaiTypingCheck" id="thaiTypingCheck" value="1">
+								<label class="form-check-label" for="thaiTypingCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								{{ talent_form.thai_typing_time(class="form-control myForm", id="s_thai_typing_time", disabled=True) }}
+								<span class="input-group-text myForm">คำ/นาที</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="engTyping">
+					<p for="g_engTyping" class="form-label text-start col-xxl-auto" style="color:#809671;">พิมพ์ดีดอังกฤษ</p>
+					<div class="row g-0" id="g_engTyping">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="engTypingCheck" id="engTypingCheck" value="1">
+								<label class="form-check-label" for="engTypingCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								{{ talent_form.eng_typing_time(class="form-control myForm", id="s_eng_typing_time", disabled=True) }}
+								<span class="input-group-text myForm">คำ/นาที</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-7 ps-3" id="computer">
+					<p for="g_computer" class="form-label text-start col-xxl-auto" style="color:#809671;">ใช้งานคอมพิวเตอร์</p>
+					<div class="row g-0" id="g_computer">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="computerCheck" id="computerCheck" value="1">
+								<label class="form-check-label" for="computerCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-11">
+							<div class="input-group">
+								<span class="input-group-text myForm">โปรดระบุโปรแกรม</span>
+								{{ talent_form.program(class="form-control myForm", id="s_program", disabled=True, placeholder="ถ้ามีหลายโปรแกรมให้ใส่ ',' คั่นกลาง") }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-xxl-flex flex-row form-group align-middle mt-3">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="car">
+					<p for="g_car" class="form-label text-start col-xxl-auto" style="color:#809671;">ความสามารถในการขับ/ขี่</p>
+					<div class="row g-0" id="g_car">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="carCheck" id="carCheck" value="1">
+	                            <label class="form-check-label" for="carCheck">รถยนต์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ใบอนุญาตขับขี่เลขที่</span>
+								{{ talent_form.driving_license(class="form-control myForm", id="s_driving_license", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="motorcycle">
+					<p for="g_motorcycle" class="form-label text-start col-xxl-auto" style="color:#809671;">&nbsp;</p>
+					<div class="row g-0" id="g_motorcycle">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="motorcycleCheck" id="motorcycleCheck" value="1">
+	                            <label class="form-check-label" for="motorcycleCheck">รถมอเตอร์ไซต์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ใบอนุญาตขับขี่เลขที่</span>
+								{{ talent_form.motorcycle_license(class="form-control myForm", id="s_motorcycle_license", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="forklift">
+					<p for="g_forklift" class="form-label text-start col-xxl-auto" style="color:#809671;">&nbsp;</p>
+					<div class="row g-0" id="g_forklift">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="forkliftCheck" id="forkliftCheck" value="1">
+	                            <label class="form-check-label" for="forkliftCheck">รถโฟล์คลิฟท์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ผ่านการอบรมจาก</span>
+								{{ talent_form.forklift_trained_from(class="form-control myForm", id="s_forklift_trained_from", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-xxl-flex flex-row form-group align-middle mt-3">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="technicianSkills">
+					<p for="g_skills" class="form-label text-start col-xxl-auto" style="color:#809671;">ความสามารถด้านช่าง</p>
+					<div class="row g-0" id="g_skills">
+						<div class="col-xxl-auto pt-2 pe-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="weldingCheck" id="weldingCheck" value="1">
+	                            <label class="form-check-label" for="weldingCheck">งานเชื่อม</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="cementCheck" id="cementCheck" value="1">
+	                            <label class="form-check-label" for="cementCheck">งานปูน</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="electricalCheck" id="electricalCheck" value="1">
+	                            <label class="form-check-label" for="electricalCheck">งานไฟฟ้า</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="maintenanceCheck" id="maintenanceCheck" value="1">
+	                            <label class="form-check-label" for="maintenanceCheck">งานซ่อมบำรุง</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="qcCheck" id="qcCheck" value="1">
+	                            <label class="form-check-label" for="qcCheck">งานQC</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="sewingCheck" id="sewingCheck" value="1">
+	                            <label class="form-check-label" for="sewingCheck">งานตัดเย็บ</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+<!--
+	ROW9 submit button
+-->
+		<div class="d-xxl-flex flex-row form-group">
+			<button class="btn btn-lg col-md-4 my-3" style="background-color: #809671; color:white;  margin:0 auto;" onclick="window.print()">พิมพ์</button>
+			<a class="btn btn-lg col-md-4 my-3" type="button" style="background-color:#809671; color:white; margin:0 auto;" href="{{ url_for('thai_employee_page') }}">กลับ</a>
+			<!--<button class="btn btn-lg col-md-4 my-3" style="background-color: #809671; color:white;  margin:0 auto;" href="{{ url_for('thai_employee_page') }}">กลับ</button>-->
+
+			<span class="myForm" id="test">{{health_data.sso}}</span>
+
+		</div>
+	</form>
+</div>
+
+<!-- javascript for load employee image -->
+<script type="text/javascript">
+	window.addEventListener('load', function() {
+		var em_id = "{{employee_id}}";
+		var img = document.getElementById("g_employeeImge");
+		var img_print = document.getElementById("g_employeeImge_print");
+		
+		if(em_id){
+			img.src = "/static/uploads/"+em_id+".jpg";
+			img_print.src = "/static/uploads/"+em_id+".jpg";
+		}else{
+			img.src = "{{url_for('static',filename='img/add2.png')}}";
+		}
+		
+		document.getElementById("select_img").addEventListener('change', function() {
+			if (this.files && this.files[0]) {
+                img.onload = () => {
+                    URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                }
+                img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            }else{
+                img.src = "{{url_for('static',filename='img/add2.png')}}"
+            }
+        });
+	});
+</script>
+
+<!-- javascript for set calendar -->
+<script type="text/javascript">
+$(function(){
+	$('#s_birth_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		autoclose: true,
+	});
+	
+	$('#s_issue_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		autoclose: true
+	});
+	
+	$('#s_expired_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		yearOffset:543,
+		autoclose: true
+	});
+});
+</script>
+
+<!-- javascript for set telephone number format -->
+<script type="text/javascript">
+	$( "#s_telephone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_telephone').val(formatted)
+	});
+	
+	$( "#s_father_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_father_phone').val(formatted)
+	});
+	
+	$( "#s_mother_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_mother_phone').val(formatted)
+	});
+	
+	$( "#s_spouse_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_spouse_phone').val(formatted)
+	});
+	
+	$( "#s_emergency_contact_telephone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_emergency_contact_telephone').val(formatted)
+	});
+</script>
+
+<!-- javascript for set personal ID number format -->
+<script type="text/javascript">
+	$( "#s_personal_id" ).on("focusout", function() {
+		var str = $(this).val();
+		var personal = str.replace(/-/g,"");
+		formatted = personal.substr(0,1) + '-' + personal.substr(1,4)+ '-' +personal.substr(5,5)+ '-' +personal.substr(10,2)+ '-' +personal.substr(12,1)
+        $('#s_personal_id').val(formatted)
+	});
+</script>
+
+<!-- javascript for set health data -->
+<script type="text/javascript">
+	var sso_Check = {{health_data.sso}};
+	var sickAndAccident_Check = {{health_data.sick_accident}};
+	var congenitalDisease_Check = {{health_data.congenital_disease}};
+	var disability_Check = {{health_data.disability}};
+	
+	//alert({{health_data.sick_accident}});
+	
+	if (sso_Check == "1") {
+		document.getElementById("ssoCheck").checked = true;
+	}else {
+		document.getElementById("ssoCheck").checked = false;
+	}
+	
+	
+	if (sickAndAccident_Check == "1") {
+		document.getElementById("sickAndAccidentCheck").checked = true;
+	}else {
+		document.getElementById("sickAndAccidentCheck").checked = false;
+	}
+	
+	if (congenitalDisease_Check == "1") {
+		document.getElementById("congenitalDiseaseCheck").checked = true;
+	}else {
+		document.getElementById("congenitalDiseaseCheck").checked = false;
+	}
+	
+	if (disability_Check == "1") {
+		document.getElementById("disabilityCheck").checked = true;
+	}else {
+		document.getElementById("disabilityCheck").checked = false;
+	}
+	
+	//document.getElementById("test").innerHTML = disability_Check;
+
+</script>
+
+<!-- javascript for set education data -->
+<script type="text/javascript">
+	function addRow() {
+		let data = [
+            {% for e_data in education_data%}
+                ['{{e_data.education_level}}', '{{e_data.school_name}}', '{{e_data.graduation_year}}', '{{e_data.faculty}}', '{{e_data.major}}', '{{e_data.average_grade}}'],
+            {% endfor %}
+		];
+		
+		const thisTable = document.getElementById('educationTable')
+		
+		var text = "test";
+        
+        for (let i = 0; i < data.length; i++) {
+            text += data[i];
+            
+            const lastRow = thisTable.tBodies[0].rows.length;
+            
+            var row = thisTable.tBodies[0].insertRow(lastRow);
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+            var cell5 = row.insertCell(5);
+            var cell6 = row.insertCell(6);
+            
+            var select = document.createElement("select");
+            var options = {{education_level_code | tojson}}
+            var opt_texts = {{education_level_name | tojson}}
+            
+            var school_name_input = document.createElement("input")
+            var graduation_year_input = document.createElement("input")
+            var faculty_input = document.createElement("input")
+            var major_input = document.createElement("input")
+            var average_grade_input = document.createElement("input")
+            var delete_button = document.createElement("input")
+            
+            row.id = "row"+lastRow
+            
+            /* set cell0 */
+            cell0.id = "name"
+            
+            select.setAttribute("type", "select");
+            select.id = "r_"+lastRow
+            select.classList.add("form-select");
+            select.classList.add("myForm");
+            
+            for(var x = 0; x < options.length; x++) {
+                var opt = options[x];
+                var opt_text = opt_texts[x]
+                var el = document.createElement("option");
+                
+                el.id = "opt_"+x+lastRow
+                el.value = opt;
+                el.text = opt_text;
+                if(opt == data[i][0]){
+                    el.selected=true
+                }
+                select.appendChild(el);
+                //document.getElementById("3").selected=true;
+            }
+            cell0.appendChild(select);
+            
+            /* set cell1 */
+            cell1.id = "cell_"+lastRow+"1"
+            
+            school_name_input.classList.add("form-control");
+            school_name_input.classList.add("myForm");
+            school_name_input.id = "school_name_"+lastRow;
+            school_name_input.value = data[i][1];
+            cell1.appendChild(school_name_input);
+            
+            /* set cell2 */
+            cell2.id = "cell_"+lastRow+"2"
+            
+            graduation_year_input.classList.add("form-control");
+            graduation_year_input.classList.add("myForm");
+            graduation_year_input.id = "graduation_year_"+lastRow;
+            graduation_year_input.value = data[i][2];
+            cell2.appendChild(graduation_year_input);
+            
+            /* set cell3 */
+            cell3.id = "cell_"+lastRow+"3"
+            
+            faculty_input.classList.add("form-control");
+            faculty_input.classList.add("myForm");
+            faculty_input.id = "faculty_input_"+lastRow;
+            faculty_input.value = data[i][3];
+            cell3.appendChild(faculty_input);
+            
+            /* set cell4 */
+            cell4.id = "cell_"+lastRow+"4"
+            
+            major_input.classList.add("form-control");
+            major_input.classList.add("myForm");
+            major_input.id = "major_input_"+lastRow;
+            major_input.value = data[i][4];
+            cell4.appendChild(major_input);
+            
+            /* set cell5 */
+            cell5.id = "cell_"+lastRow+"5"
+            
+            average_grade_input.classList.add("form-control");
+            average_grade_input.classList.add("myForm");
+            average_grade_input.id = "average_grade_input_"+lastRow;
+            average_grade_input.value = data[i][5];
+            cell5.appendChild(average_grade_input);
+		}
+		//alert(text);
+	}
+	addRow()
+</script>
+
+<!-- javascript for set workhistory data -->
+<script type="text/javascript">
+	function addWorkHistory(){
+		let w_data = [
+			{% for w_data in work_history_data %}
+				['{{w_data.company_name}}', '{{w_data.position}}', '{{w_data.begin_year}}', '{{w_data.end_year}}', '{{w_data.reason}}'],
+			{% endfor %}
+		];
+		
+		//alert(w_data);
+	
+		const thisTable = document.getElementById('workHistoryTable')
+		
+		var w_text = "test"
+		
+		//alert(thisTable);
+		
+		for (let i = 0; i < w_data.length; i++) {
+			w_text += w_data[i]
+			
+			const lastRow = thisTable.tBodies[0].rows.length;
+			
+			var numcell = thisTable.tHead.rows[0].cells.length;
+			var row = thisTable.tBodies[0].insertRow(lastRow);
+			var cells = [];
+			
+			var companyNameInput = document.createElement("input");
+			var jobPositionInput = document.createElement("input");
+			var startedYearInput = document.createElement("input");
+			var leavedYearInput = document.createElement("input");
+			var reasonInput = document.createElement("input");
+			var delete_button = document.createElement("input")
+			
+			for (var j = 0; j < numcell; j++) {
+                cells[j] = row.insertCell(j);
+                cells[j].id = "cell_"+j;
+            }
+            
+            // set cell_0
+			companyNameInput.classList.add("form-control");
+			companyNameInput.classList.add("myForm");
+			companyNameInput.id = "companyName"+lastRow;
+			companyNameInput.value = w_data[i][0];
+			cells[0].appendChild(companyNameInput);
+			
+			// set cell_1
+			jobPositionInput.classList.add("form-control");
+			jobPositionInput.classList.add("myForm");
+			jobPositionInput.id = "jobPosition"+lastRow;
+			jobPositionInput.value = w_data[i][1];
+			cells[1].appendChild(jobPositionInput);
+			
+			// set cell_2
+			startedYearInput.classList.add("form-control");
+			startedYearInput.classList.add("myForm");
+			startedYearInput.id = "startedYear"+lastRow;
+			startedYearInput.value = w_data[i][2];
+			cells[2].appendChild(startedYearInput);
+			
+			// set cell_3
+			leavedYearInput.classList.add("form-control");
+			leavedYearInput.classList.add("myForm");
+			leavedYearInput.id = "leavedYear"+lastRow;
+			leavedYearInput.value = w_data[i][3];
+			cells[3].appendChild(leavedYearInput);
+			
+			// set cell_4
+			reasonInput.classList.add("form-control");
+			reasonInput.classList.add("myForm");
+			reasonInput.id = "reason"+lastRow;
+			reasonInput.value = w_data[i][4];
+			cells[4].appendChild(reasonInput);
+			
+			//alert(w_data);
+		}
+	}
+	addWorkHistory()
+</script>
+
+<!-- javascript for set talent data -->
+<script type="text/javascript">
+	var thai_typing_check = {{talent_data.thai_typing}}
+	var eng_typing_check = {{talent_data.eng_typing}}
+	var computer_check = {{talent_data.computer}}
+	var car_check = {{talent_data.driving}}
+	var motorcycle_check = {{talent_data.motorcycling}}
+	var forklift_check = {{talent_data.forklift_driving}}
+	var welding_check = {{talent_data.welding}}
+	var cement_check = {{talent_data.cement}}
+	var electrical_check = {{talent_data.electrical}}
+	var maintenance_check = {{talent_data.maintenance}}
+	var qc_check = {{talent_data.qc}}
+	var sewing_check = {{talent_data.sewing}}
+	
+	if(thai_typing_check == "1"){
+		document.getElementById("thaiTypingCheck").checked = true;
+	}else {
+		document.getElementById("thaiTypingCheck").checked = false;
+	}
+	
+	if(eng_typing_check == "1"){
+		document.getElementById("engTypingCheck").checked = true;
+	}else {
+		document.getElementById("engTypingCheck").checked = false;
+	}
+	
+	if(computer_check == "1"){
+		document.getElementById("computerCheck").checked = true;
+	}else {
+		document.getElementById("computerCheck").checked = false;
+	}
+	
+	if(car_check == "1"){
+		document.getElementById("carCheck").checked = true;
+	}else {
+		document.getElementById("carCheck").checked = false;
+	}
+	
+	if(motorcycle_check == "1"){
+		document.getElementById("motorcycleCheck").checked = true;
+	}else {
+		document.getElementById("motorcycleCheck").checked = false;
+	}
+	
+	if(forklift_check == "1"){
+		document.getElementById("forkliftCheck").checked = true;
+	}else {
+		document.getElementById("forkliftCheck").checked = false;
+	}
+	
+	if(welding_check == "1"){
+		document.getElementById("weldingCheck").checked = true;
+	}else {
+		document.getElementById("weldingCheck").checked = false;
+	}
+	
+	if(cement_check == "1"){
+		document.getElementById("cementCheck").checked = true;
+	}else {
+		document.getElementById("cementCheck").checked = false;
+	}
+	
+	if(electrical_check == "1"){
+		document.getElementById("electricalCheck").checked = true;
+	}else {
+		document.getElementById("electricalCheck").checked = false;
+	}
+	
+	if(maintenance_check == "1"){
+		document.getElementById("maintenanceCheck").checked = true;
+	}else {
+		document.getElementById("maintenanceCheck").checked = false;
+	}
+	
+	if(qc_check == "1"){
+		document.getElementById("qcCheck").checked = true;
+	}else {
+		document.getElementById("qcCheck").checked = false;
+	}
+	
+	if(sewing_check == "1"){
+		document.getElementById("sewingCheck").checked = true;
+	}else {
+		document.getElementById("sewingCheck").checked = false;
+	}
+</script>
+
+
+{% endblock %}

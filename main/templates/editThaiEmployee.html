@@ -1,0 +1,1038 @@
+{% extends 'base.html'%}
+
+{% block title %}
+แก้ไขข้อมูลพนักงาน(ไทย)
+{% endblock %}
+
+{% block content %}
+<div class="card card-body mx-3 my-3 myForm">
+	<!--<form action="/save" method="POST" class="form-register container-fluid" style="color:white;" enctype="multipart/form-data">-->
+	<form method="POST" class="form-register container-fluid" style="color:white;" enctype="multipart/form-data">
+		{{ general_form.hidden_tag() }}
+		{{ image_form.hidden_tag() }}
+		<!--{{ register_address_form.hidden_tag() }}
+		{{ actual_address_form.hidden_tag() }}
+		{{ father_form.hidden_tag() }}
+		{{ mother_form.hidden_tag() }}
+		{{ clan_form.hidden_tag() }}
+        {{ family_form.hidden_tag() }}
+		{{ health_data_form.hidden_tag() }}
+		{{ emergency_contact_form.hidden_tag() }}
+		{{ talent_form.hidden_tag() }}
+		{{ talent_form.hidden_tag() }}-->
+<!--
+	ROW1 get employee's image and general data
+-->
+		<div class="d-xxl-flex flex-row form-group">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-2 text-center myForm" id="employeeImge">
+				<div class="d-xxl-flex flex-row justify-content-center">
+					<img class="img-fluid mx-3 my-3" style="width:170px;" id="g_employeeImge" src="#" alt="รูปพนักงาน">
+					<script type="text/javascript">
+						{% if file_url %}
+						document.getElementById("g_employeeImge").src = "{{url_for('static',filename='uploads'+file_url)}}";
+						{% else %}
+						document.getElementById("g_employeeImge").src = "{{url_for('static',filename='img/add2.png')}}";
+						{% endif %}
+					</script>
+				</div>
+				
+				<div class="row justify-content-center">
+					{% if image_form.photo.errors %}
+					{% for error in image_form.photo.errors %}
+					<span style="color: red;">{{ error }}</span>
+					{% endfor %}
+					{% else %}
+					<span class="myForm-text">รูปพนักงาน</span>
+					{% endif %}
+					<div class="col-xxl-9 mx-3 my-3">
+						{{ image_form.photo(class="form-control col-auto", id="select_img", placeholder="+") }}
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3 col-lg-10 col-xl-10 col-xxl-10 text-center" id="generalData">
+				<div class="row px-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เลขประจำตัวพนักงาน</span>
+							{{general_form.employee_id(class="form-control myForm", id="employee_id", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto ms-2 g-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เลขที่บัตรประชาชน</span>
+							{{general_form.personal_id(class="form-control myForm", id="s_personal_id", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันที่ออกบัตร</span>
+							{{general_form.issue_date(class="form-control myForm", id="s_issue_date", placeholder="")}}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันที่หมดอายุ</span>
+							{{general_form.expired_date(class="form-control myForm", id="s_expired_date", placeholder="")}}
+						</div>
+					</div>
+				</div>
+				<!--<div class="row px-2 mt-3 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{general_form.title(class="form-select myForm", id="s_title", placeholder="")}}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ general_form.first_name_th(class="form-control myForm", id="s_name_th", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ general_form.last_name_th(class="form-control myForm", id="s_last_name_th", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">First Name</span>
+							{{ general_form.first_name(class="form-control myForm", id="s_first_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">Last Name</span>
+							{{ general_form.last_name(class="form-control myForm", id="last_name", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<div class="col-auto col-xxl-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">วันเกิด</span>
+							{{ general_form.birth_date(class="form-control myForm", id="s_birth_date", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ส่วนสูง</span>
+							{{ general_form.height(class="form-control myForm", id="s_height", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">น้ำหนัก</span>
+							{{ general_form.weight(class="form-control myForm", id="s_weight", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ general_form.telephone(class="form-control myForm", id="s_telephone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-2 g-0">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+                            <span class="input-group-text myForm">สัญชาติ</span>
+							{{ general_form.nationality(class="form-select myForm", id="s_nationality", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เชื้อชาติ</span>
+							{{ general_form.ethnicity(class="form-select myForm", id="s_ethnicity", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-auto ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ศาสนา</span>
+							{{ general_form.religion(class="form-select myForm", id="s_religion", placeholder="") }}
+						</div>
+					</div>
+				</div>-->
+				<!--<div class="row px-2 mt-3 g-0">
+					<p for="register_address" class="form-label text-start" style="color:#809671;">ที่อยู่ตามทะเบียนบ้าน</p>
+					<div class="row g-0" id="register_address">
+						<div class="col-auto col-xxl-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เลขที่</span>
+								{{ register_address_form.register_address_house_number(class="form-control myForm", id="s_register_house_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-1 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">หมู่ที่</span>
+								{{ register_address_form.register_address_village_number(class="form-control myForm", id="s_register_village_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-3 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">แขวง/ตำบล</span>
+								{{ register_address_form.register_address_subdistrict(class="form-select myForm", id="s_register_subdistrict", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เขต/อำเภอ</span>
+								{{ register_address_form.register_address_district(class="form-select myForm", id="s_register_district", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">จังหวัด</span>
+								{{ register_address_form.register_address_province(class="form-select myForm", id="s_register_province", placeholder="") }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row px-2 mt-3 g-0">
+					<p for="actual_address" class="form-label text-start" style="color:#809671;">ที่อยู่ปัจจุบัน</p>
+					<div class="row g-0" id="actual_address">
+						<div class="col-auto col-xxl-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เลขที่</span>
+								{{ actual_address_form.actual_address_house_number(class="form-control myForm", id="s_actual_house_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-1 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">หมู่ที่</span>
+								{{ actual_address_form.actual_address_village_number(class="form-control myForm", id="s_actual_village_number", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto col-xxl-3 ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">แขวง/ตำบล</span>
+								{{ actual_address_form.actual_address_subdistrict(class="form-select myForm", id="s_actual_subdistrict", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">เขต/อำเภอ</span>
+								{{ actual_address_form.actual_address_district(class="form-select myForm", id="s_actual_district", placeholder="") }}
+							</div>
+						</div>
+						<div class="col-auto ms-2">
+							<div class="input-group">
+	                            <span class="input-group-text myForm">จังหวัด</span>
+								{{ actual_address_form.actual_address_province(class="form-select myForm", id="s_actual_province", placeholder="") }}
+							</div>
+						</div>
+					</div>
+				</div>-->
+            </div>
+		</div>
+<!--
+	ROW2 get employee's parent data
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1" id="clan">
+				<p for="g_clan" class="form-label text-start col-xxl-12" style="color:#809671;">จำนวนพี่น้อง</p>
+				<div class="row g-0" id="g_clan">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ชาย&nbsp;</span>
+							{{ clan_form.brother_number(class="form-control myForm", id="s_brother_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หญิง</span>
+							{{ clan_form.sister_number(class="form-control myForm", id="s_sister_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">รวม&nbsp;&nbsp;</span>
+							{{ clan_form.sibling_number(class="form-control myForm", id="s_sibling_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-10 col-xl-10 col-xxl-11 text-center" id="parent">
+				<p for="father_data" class="form-label text-start ms-3" style="color:#809671;">ข้อมูลบิดา</p>
+				<div class="row ms-3 g-0" id="father_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ father_form.father_title(class="form-select myForm", id="s_father_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ father_form.father_first_name(class="form-control myForm", id="s_father_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ father_form.father_last_name(class="form-control myForm", id="s_father_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ father_form.father_age(class="form-control myForm", id="s_father_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ father_form.father_occupation(class="form-control myForm", id="s_father_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ father_form.father_telephone(class="form-control myForm", id="s_father_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				
+				<p for="mother_data" class="form-label text-start ms-3 mt-3" style="color:#809671;">ข้อมูลมารดา</p>
+				<div class="row ms-3 g-0" id="mother_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ mother_form.mother_title(class="form-select myForm", id="s_mother_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ mother_form.mother_first_name(class="form-control myForm", id="s_mother_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ mother_form.mother_last_name(class="form-control myForm", id="s_mother_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ mother_form.mother_age(class="form-control myForm", id="s_mother_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ mother_form.mother_occupation(class="form-control myForm", id="s_mother_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ mother_form.mother_telephone(class="form-control myForm", id="s_mother_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+<!--
+	ROW3 get employee's family data
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1" id="maritalStatus">
+				<p for="g_marital_status" class="form-label text-start col-xxl-12" style="color:#809671;">สถานะภาพสมรส</p>
+				<div class="row g-0" id="g_marital_status">
+					<div class="col-auto col-xxl-12 g-0">
+						{{ family_form.marital_status(class="form-check", id="marital_status", style="list-style-type:none;", placeholder="") }}
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-1 ms-3" id="children_number">
+				<p for="g_children_number" class="form-label text-start col-xxl-12" style="color:#809671;">จำนวนบุตร</p>
+				<div class="row g-0" id="g_children_number">
+					<div class="col-auto col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ชาย&nbsp;</span>
+							{{ family_form.son_number(class="form-control myForm", id="s_son_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หญิง</span>
+							{{ family_form.daughter_number(class="form-control myForm", id="s_daughter_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row g-0">
+					<div class="col-auto col-xxl-auto mt-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">รวม&nbsp;&nbsp;</span>
+							{{ family_form.children_number(class="form-control myForm", id="s_children_number", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ms-3" id="spouse">
+				<p for="spouse_data" class="form-label text-start" style="color:#809671;">ข้อมูลคู่สมรส</p>
+				<div class="row g-0" id="spouse_data">
+					<div class="col-12 col-xxl-2 ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ family_form.spouse_title(class="form-select myForm", id="s_spouse_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ family_form.spouse_first_name(class="form-control myForm", id="s_spouse_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ family_form.spouse_last_name(class="form-control myForm", id="s_spouse_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-1 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อายุ</span>
+							{{ family_form.spouse_age(class="form-control myForm", id="s_spouse_age", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-3 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ family_form.spouse_telephone(class="form-control myForm", id="s_spouse_phone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+<!--
+	ROW4 get employee's health data
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="ssoData">
+				<p for="g_sso" class="form-label text-start col-xxl-12" style="color:#809671;">ประกันสังคม</p>
+				<div class="row g-0" id="g_sso">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="ssoCheck" id="ssoCheck" value="1" onclick="CheckFunction('ssoCheck', 's_sso_hospital')">
+                            <label class="form-check-label" for="ssoCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">ระบุโรงพยาบาล</span>
+							{{ health_data_form.sso_hospital(class="form-control myForm", id="s_sso_hospital", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="bloodGroup">
+				<p for="g_bloodGroup" class="form-label text-start col-xxl-12" style="color:#809671;">&nbsp;</p>
+				<div class="row g-0" id="g_bloodGroup">
+				<div class="input-group">
+					<span class="input-group-text myForm">หมู่เลือด</span>
+					{{ health_data_form.blood_group(class="form-select myForm", id="s_blood_group", placeholder="") }}
+				</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="sickAndAccident">
+				<p for="g_sickAndAccident" class="form-label text-start col-xxl-12" style="color:#809671;">เคยป่วยหรือได้รับอุบัติเหตุรุนแรง</p>
+				<div class="row g-0" id="g_sickAndAccident">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="sickAndAccidentCheck" id="sickAndAccidentCheck" value="1" onclick="CheckFunction('sickAndAccidentCheck', 's_ill_accident_cause')">
+                            <label class="form-check-label" for="ssoCheck">เคย</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.ill_accident_cause(class="form-control myForm", id="s_ill_accident_cause", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="congenitalDisease">
+				<p for="g_congenitalDisease" class="form-label text-start col-xxl-12" style="color:#809671;">โรคประจำตัว</p>
+				<div class="row g-0" id="g_congenitalDisease">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="congenitalDiseaseCheck" id="congenitalDiseaseCheck" value="1" onclick="CheckFunction('congenitalDiseaseCheck', 's_congenital_disease_name')">
+                            <label class="form-check-label" for="ssoCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.congenital_disease_name(class="form-control myForm", id="s_congenital_disease_name", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="disability">
+				<p for="g_disability" class="form-label text-start col-xxl-12" style="color:#809671;">ความผิดปกติหรือพิการ</p>
+				<div class="row g-0" id="g_disability">
+					<div class="col-xxl-auto pt-2 pe-2">
+						<div class="form-check form-checkbox-inline">
+                            <input class="form-check-input" type="checkbox" name="disabilityCheck" id="disabilityCheck" value="1" onclick="CheckFunction('disabilityCheck', 's_disability_organ')">
+                            <label class="form-check-label" for="ssoCheck">มี</label>
+						</div>
+					</div>
+					<div class="col-xxl-auto">
+						<div class="input-group">
+							<span class="input-group-text myForm">โปรดระบุ</span>
+							{{ health_data_form.disability_organ(class="form-control myForm", id="s_disability_organ", disabled=True) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+<!--
+	ROW5 get employee's emergency contact data
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 py-3 myForm">
+			<div class="col-md-3 col-lg-10 col-xl-10 col-xxl-11 text-center" id="emergencyContact">
+				<p for="emergencyContactData" class="form-label text-start" style="color:#809671;">ข้อมูลผู้ติดต่อกรณีฉุกเฉิน</p>
+				<div class="row g-0" id="emergencyContactData">
+					<div class="col-12 col-xxl-auto ms-0">
+						<div class="input-group">
+                            <span class="input-group-text myForm">คำนำหน้า</span>
+							{{ emergency_contact_form.emergency_contact_title(class="form-select myForm", id="s_emergency_contact_title", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">ชื่อ</span>
+							{{ emergency_contact_form.emergency_contact_first_name(class="form-control myForm", id="s_emergency_contact_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">นามสกุล</span>
+							{{ emergency_contact_form.emergency_contact_last_name(class="form-control myForm", id="s_emergency_contact_last_name", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">อาชีพ</span>
+							{{ emergency_contact_form.emergency_contact_occupation(class="form-control myForm", id="s_emergency_contact_occupation", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เกี่ยวข้องเป็น</span>
+							{{ emergency_contact_form.emergency_contact_relationship(class="form-control myForm", id="s_emergency_contact_relationship", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-12 col-xxl-2 ms-2">
+						<div class="input-group">
+                            <span class="input-group-text myForm">เบอร์โทรศัพท์</span>
+							{{ emergency_contact_form.emergency_contact_telephone(class="form-control myForm", id="s_emergency_contact_telephone", placeholder="") }}
+						</div>
+					</div>
+				</div>
+				<div class="row mt-3 g-0" id="emergencyContactAddress">
+					<div class="col-auto col-xxl-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">เลขที่</span>
+							{{ emergency_contact_form.emergency_contact_house_number(class="form-control myForm", id="s_emergency_contact_house_number", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-1 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">หมู่ที่</span>
+							{{ emergency_contact_form.emergency_contact_village_number(class="form-control myForm", id="s_emergency_contact_village_number", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">แขวง/ตำบล</span>
+							{{ emergency_contact_form.emergency_contact_subdistrict(class="form-select myForm", id="s_emergency_contact_subdistrict", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">เขต/อำเภอ</span>
+							{{ emergency_contact_form.emergency_contact_district(class="form-select myForm", id="s_emergency_contact_district", placeholder="") }}
+						</div>
+					</div>
+					<div class="col-auto col-xxl-2 ms-2">
+						<div class="input-group">
+							<span class="input-group-text myForm">จังหวัด</span>
+							{{ emergency_contact_form.emergency_contact_province(class="form-select myForm", id="s_emergency_contact_province", placeholder="") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+<!--
+	ROW6 get employee's education data
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 pt-3 myForm">
+			<div class="col-xxl-12" id="educationRecord">
+				<p for="educationRecord" class="form-label text-start col-xxl-12" style="color:#809671;">ประวัติการศึกษา</p>
+				<table class="table" id="educationTable">
+					<thead class="myForm-text">
+	                    <tr>
+	                        <td class="col-xxl-2" style="color:#809671;">ระดับการศึกษา</td>
+	                        <td class="col-xxl-3" style="color:#809671;">ชื่อสถาบันการศึกษา</td>
+	                        <td class="col-xxl-1" style="color:#809671;">ปีที่จบการศึกษา</td>
+		                    <td class="col-xxl-2" style="color:#809671;">คณะ</td>
+		                    <td class="col-xxl-2" style="color:#809671;">สาขา</td>
+		                    <td class="col-xxl-2" style="color:#809671;">เกรดเฉลี่ย</td>
+		                    <td class="col-xxl-auto" style="color:#809671;"><button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="addRow()">+</button></td>
+	                    </tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+					<tfoot  hidden>
+						<td>
+							<button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="makeEduArray('educationTable')">+</button>
+						</td>
+						<td colspan="6">
+							<div class="col-12 col-xxl-12 ms-2">
+									{{ tuple_form.educationTuple(class="form-control myForm", id="s_educationTuple", placeholder="") }}
+							</div>
+						</td>
+					</tfoot>
+				</table>
+			</div>
+		</div>-->
+<!--
+	ROW7 get employee's work history
+-->
+		<!--<div class="d-xxl-flex flex-row form-group align-middle mt-3 px-3 pt-3 myForm">
+			<div class="col-xxl-12" id="workHistory">
+				<p for="workHistory" class="form-label text-start col-xxl-12" style="color:#809671;">ประวัติการทำงาน</p>
+				<table class="table" style="color: red;" id="workHistoryTable">
+					<thead class="myForm-text">
+	                    <tr>
+		                    <td class="col-xxl-3" style="color:#809671;">ชื่อบริษัท</td>
+	                        <td class="col-xxl-2" style="color:#809671;">ตำแหน่งงาน</td>
+	                        <td class="col-xxl-1" style="color:#809671;">ปีที่เริ่ม</td>
+		                    <td class="col-xxl-1" style="color:#809671;">ปีที่ออก</td>
+		                    <td class="col-xxl-5" style="color:#809671;">สาเหตุที่ออก</td>
+		                    <td class="col-xxl-auto" style="color:#809671;"><button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="addWorkHistory('workHistoryTable')">+</button></td>
+	                    </tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+					<tfoot hidden>
+						<td>
+							<button type="button" class="btn col-xxl-12" style="background-color: #809671; color:white;" onclick="makeWorkArray('workHistoryTable')">+</button>
+						</td>
+						<td colspan="6">
+							<div class="col-12 col-xxl-12 ms-2">
+									{{ tuple_form.workHistoryTuple(class="form-control myForm", id="s_workHistoryTuple", placeholder="") }}
+							</div>
+						</td>
+					</tfoot>
+				</table>
+			</div>
+		</div>-->
+<!--
+	ROW8 get employee's talent
+-->
+		<!--<div class="row mt-3 ps-3 py-3 g-0 myForm">
+			<div class="d-xxl-flex flex-row form-group align-middle">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="thaiTyping">
+					<p for="g_thaiTyping" class="form-label text-start col-xxl-auto" style="color:#809671;">พิมพ์ดีดไทย</p>
+					<div class="row g-0" id="g_thaiTyping">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="thaiTypingCheck" id="thaiTypingCheck" value="1" onclick="CheckFunction('thaiTypingCheck', 's_thai_typing_time')">
+								<label class="form-check-label" for="thaiTypingCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								{{ talent_form.thai_typing_time(class="form-control myForm", id="s_thai_typing_time", disabled=True) }}
+								<span class="input-group-text myForm">คำ/นาที</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="engTyping">
+					<p for="g_engTyping" class="form-label text-start col-xxl-auto" style="color:#809671;">พิมพ์ดีดอังกฤษ</p>
+					<div class="row g-0" id="g_engTyping">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="engTypingCheck" id="engTypingCheck" value="1" onclick="CheckFunction('engTypingCheck', 's_eng_typing_time')">
+								<label class="form-check-label" for="engTypingCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								{{ talent_form.eng_typing_time(class="form-control myForm", id="s_eng_typing_time", disabled=True) }}
+								<span class="input-group-text myForm">คำ/นาที</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-7 ps-3" id="computer">
+					<p for="g_computer" class="form-label text-start col-xxl-auto" style="color:#809671;">ใช้งานคอมพิวเตอร์</p>
+					<div class="row g-0" id="g_computer">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+								<input class="form-check-input" type="checkbox" name="computerCheck" id="computerCheck" value="1" onclick="CheckFunction('computerCheck', 's_program')">
+								<label class="form-check-label" for="computerCheck">ได้</label>
+							</div>
+						</div>
+						<div class="col-xxl-11">
+							<div class="input-group">
+								<span class="input-group-text myForm">โปรดระบุโปรแกรม</span>
+								{{ talent_form.program(class="form-control myForm", id="s_program", disabled=True, placeholder="ถ้ามีหลายโปรแกรมให้ใส่ ',' คั่นกลาง") }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-xxl-flex flex-row form-group align-middle mt-3">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="car">
+					<p for="g_car" class="form-label text-start col-xxl-auto" style="color:#809671;">ความสามารถในการขับ/ขี่</p>
+					<div class="row g-0" id="g_car">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="carCheck" id="carCheck" value="1" onclick="CheckFunction('carCheck','s_driving_license')">
+	                            <label class="form-check-label" for="carCheck">รถยนต์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ใบอนุญาตขับขี่เลขที่</span>
+								{{ talent_form.driving_license(class="form-control myForm", id="s_driving_license", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="motorcycle">
+					<p for="g_motorcycle" class="form-label text-start col-xxl-auto" style="color:#809671;">&nbsp;</p>
+					<div class="row g-0" id="g_motorcycle">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="motorcycleCheck" id="motorcycleCheck" value="1" onclick="CheckFunction('motorcycleCheck', 's_motorcycle_license')">
+	                            <label class="form-check-label" for="motorcycleCheck">รถมอเตอร์ไซต์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ใบอนุญาตขับขี่เลขที่</span>
+								{{ talent_form.motorcycle_license(class="form-control myForm", id="s_motorcycle_license", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto ps-3" id="forklift">
+					<p for="g_forklift" class="form-label text-start col-xxl-auto" style="color:#809671;">&nbsp;</p>
+					<div class="row g-0" id="g_forklift">
+						<div class="col-xxl-auto pt-2 pe-2">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="forkliftCheck" id="forkliftCheck" value="1" onclick="CheckFunction('forkliftCheck', 's_forklift_trained_from')">
+	                            <label class="form-check-label" for="forkliftCheck">รถโฟล์คลิฟท์</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto">
+							<div class="input-group">
+								<span class="input-group-text myForm">ผ่านการอบรมจาก</span>
+								{{ talent_form.forklift_trained_from(class="form-control myForm", id="s_forklift_trained_from", disabled=True) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-xxl-flex flex-row form-group align-middle mt-3">
+				<div class="col-md-3 col-lg-2 col-xl-2 col-xxl-auto" id="technicianSkills">
+					<p for="g_skills" class="form-label text-start col-xxl-auto" style="color:#809671;">ความสามารถด้านช่าง</p>
+					<div class="row g-0" id="g_skills">
+						<div class="col-xxl-auto pt-2 pe-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="weldingCheck" id="weldingCheck" value="1">
+	                            <label class="form-check-label" for="weldingCheck">งานเชื่อม</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="cementCheck" id="cementCheck" value="1">
+	                            <label class="form-check-label" for="weldingCheck">งานปูน</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="electricalCheck" id="electricalCheck" value="1">
+	                            <label class="form-check-label" for="electricalCheck">งานไฟฟ้า</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="maintenanceCheck" id="maintenanceCheck" value="1">
+	                            <label class="form-check-label" for="maintenanceCheck">งานซ่อมบำรุง</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="qcCheck" id="qcCheck" value="1">
+	                            <label class="form-check-label" for="qcCheck">งานQC</label>
+							</div>
+						</div>
+						<div class="col-xxl-auto pt-2 px-3">
+							<div class="form-check form-checkbox-inline">
+	                            <input class="form-check-input" type="checkbox" name="sewingCheck" id="sewingCheck" value="1">
+	                            <label class="form-check-label" for="sewingCheck">งานตัดเย็บ</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>-->
+<!--
+	ROW9 submit button
+-->
+		<div class="d-xxl-flex flex-row form-group">
+			<button type="submit" name="submit" class="btn btn-lg col-md-4 my-3" style="background-color: #809671; color:white;  margin:0 auto;" onclick="makeArray('educationTable','workHistoryTable')">บันทึก</button>
+			<span class="myForm" id="test">{{ data }}</span>
+		</div>
+	</form>
+</div>
+
+<!-- javascript for load employee image -->
+<script type="text/javascript">
+	window.addEventListener('load', function() {
+		var em_id = "{{employee_id}}";
+		var img = document.getElementById("g_employeeImge");
+		
+		if(em_id){
+			img.src = "/static/uploads/"+em_id+".jpg";
+		}else{
+			img.src = "{{url_for('static',filename='img/add2.png')}}";
+		}
+		alert(em_id);
+		
+		document.getElementById("select_img").addEventListener('change', function() {
+			if (this.files && this.files[0]) {
+                img.onload = () => {
+                    URL.revokeObjectURL(img.src);  // no longer needed, free memory
+                }
+                img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            }else{
+                img.src = "{{url_for('static',filename='img/add2.png')}}"
+            }
+        });
+	});
+</script>
+
+<!-- javascript for set calendar -->
+<script type="text/javascript">
+$(function(){
+	$('#s_birth_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		autoclose: true,
+	});
+	
+	$('#s_issue_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		autoclose: true
+	});
+	
+	$('#s_expired_date').datepicker({
+		format: 'dd-mm-yyyy',
+		language: 'th-th',
+		yearOffset:543,
+		autoclose: true
+	});
+});
+</script>
+
+<!-- javascript for set telephone number format -->
+<script type="text/javascript">
+	$( "#s_telephone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_telephone').val(formatted)
+	});
+	
+	$( "#s_father_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_father_phone').val(formatted)
+	});
+	
+	$( "#s_mother_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_mother_phone').val(formatted)
+	});
+	
+	$( "#s_spouse_phone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_spouse_phone').val(formatted)
+	});
+	
+	$( "#s_emergency_contact_telephone" ).on("focusout", function() {
+		var str = $(this).val();
+		var phone = str.replace(/-/g,"");
+		formatted = phone.substr(0, 3) + '-' + phone.substr(3, 3) + '-' + phone.substr(6,4)
+        $('#s_emergency_contact_telephone').val(formatted)
+	});
+</script>
+
+<!-- javascript for set personal ID number format -->
+<script type="text/javascript">
+	$( "#s_personal_id" ).on("focusout", function() {
+		var str = $(this).val();
+		var personal = str.replace(/-/g,"");
+		formatted = personal.substr(0,1) + '-' + personal.substr(1,4)+ '-' +personal.substr(5,5)+ '-' +personal.substr(10,2)+ '-' +personal.substr(12,1)
+        $('#s_personal_id').val(formatted)
+	});
+</script>
+
+<!-- javascript for set number of sibling -->
+<script type="text/javascript">
+	$( "#s_brother_number" ).on("focusout", function() {
+		var bro = $('#s_brother_number').val();
+		var sis = $('#s_sister_number').val();
+		var sum_child = parseInt(bro)+parseInt(sis);
+		formatted = sum_child
+        $('#s_sibling_number').val(formatted)
+	});
+	
+	$( "#s_sister_number" ).on("focusout", function() {
+		var bro = $('#s_brother_number').val();
+		var sis = $('#s_sister_number').val();
+		var sum_child = parseInt(bro)+parseInt(sis);
+		formatted = sum_child
+        $('#s_sibling_number').val(formatted)
+	});
+</script>
+
+<!-- javascript for set number of children -->
+<script type="text/javascript">
+	$( "#s_son_number" ).on("focusout", function() {
+		var son = $('#s_son_number').val();
+		var daughter = $('#s_daughter_number').val();
+		var sum_child = parseInt(son)+parseInt(daughter);
+		formatted = sum_child
+        $('#s_children_number').val(formatted)
+	});
+	
+	$( "#s_daughter_number" ).on("focusout", function() {
+		var son = $('#s_son_number').val();
+		var daughter = $('#s_daughter_number').val();
+		var sum_child = parseInt(son)+parseInt(daughter);
+		formatted = sum_child
+        $('#s_children_number').val(formatted)
+	});
+</script>
+
+<!-- javascript for set title -->
+<script type="text/javascript">
+	$('#s_title').prepend($('<option value="" hidden selected></option>'));
+	$('#s_father_title').prepend($('<option value="" hidden selected></option>'));
+	$('#s_mother_title').prepend($('<option value="" hidden selected></option>'));
+	$('#s_spouse_title').prepend($('<option value="" hidden selected></option>'));
+	$('#s_emergency_contact_title').prepend($('<option value="" hidden selected></option>'));
+</script>
+
+<!-- javascript for set nationality, ethnicity, religion -->
+<script type="text/javascript">
+	$('#s_nationality').prepend($('<option value="" hidden selected></option>'));
+	$('#s_ethnicity').prepend($('<option value="" hidden selected></option>'));
+	$('#s_religion').prepend($('<option value="" hidden selected></option>'));
+</script>
+
+<!-- javascript for set address -->
+<script type="text/javascript">
+	function selectElement(id, valueToSelect) {
+		let element = document.getElementById(id);
+		element.value = valueToSelect;
+	}
+	
+	
+	//register address
+	$('#s_register_subdistrict').prepend($('<option value="" hidden selected></option>'));
+	$('#s_register_district').prepend($('<option value="" hidden selected></option>'));
+	$('#s_register_province').prepend($('<option value="" hidden selected></option>'));
+	
+	$('#s_register_subdistrict').change(function(){
+		var subdistrictCode = $(this).val();
+		var districtCode = subdistrictCode.substr(0,4)
+		var provinceCode = subdistrictCode.substr(0,2)
+		
+		selectElement('s_register_district', districtCode);
+		selectElement('s_register_province', provinceCode);
+		
+        //alert("subdistrict code: "+subdistrictCode+"<br>district code: "+districtCode);
+	})
+	
+	
+	//actual address
+	$('#s_actual_subdistrict').prepend($('<option value="" hidden selected></option>'));
+	$('#s_actual_district').prepend($('<option value="" hidden selected></option>'));
+	$('#s_actual_province').prepend($('<option value="" hidden selected></option>'));
+	
+	$('#s_actual_subdistrict').change(function(){
+		var subdistrictCode = $(this).val();
+		var districtCode = subdistrictCode.substr(0,4)
+		var provinceCode = subdistrictCode.substr(0,2)
+		
+		selectElement('s_actual_district', districtCode);
+		selectElement('s_actual_province', provinceCode);
+		
+        //alert("subdistrict code: "+subdistrictCode+"<br>district code: "+districtCode);
+	})
+	
+	
+	//emergency contact address
+	$('#s_emergency_contact_subdistrict').prepend($('<option value="" hidden selected></option>'));
+	$('#s_emergency_contact_district').prepend($('<option value="" hidden selected></option>'));
+	$('#s_emergency_contact_province').prepend($('<option value="" hidden selected></option>'));
+	
+	$('#s_emergency_contact_subdistrict').change(function(){
+		var subdistrictCode = $(this).val();
+		var districtCode = subdistrictCode.substr(0,4)
+		var provinceCode = subdistrictCode.substr(0,2)
+		
+		selectElement('s_emergency_contact_district', districtCode);
+		selectElement('s_emergency_contact_province', provinceCode);
+		
+        //alert("subdistrict code: "+subdistrictCode+"<br>district code: "+districtCode);
+	})
+</script>
+
+<!-- javascript for check function -->
+<script type="text/javascript">
+	function CheckFunction(checkBox_id, text_id) {
+		var checkBox = document.getElementById(checkBox_id);
+		var text = document.getElementById(text_id);
+		if (checkBox.checked == true){
+            text.disabled= false;
+            text.focus()
+        } else {
+            text.disabled = true;
+            text.value = "";
+        }
+	}
+</script>
+
+
+{% endblock %}
